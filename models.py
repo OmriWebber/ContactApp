@@ -9,28 +9,29 @@ db = SQLAlchemy()
 class Users(UserMixin, db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(50), nullable=False, unique=True)
-    password = db.Column(db.String(256), nullable=False)
+    passcode = db.Column(db.String, nullable=False, unique=True)
+    name = db.Column(db.String, nullable=False)
     is_Admin = db.Column(db.Boolean, nullable=False, default=False)
-    date_created = db.Column(db.DateTime, default=datetime.utcnow)
+    dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     
     def __repr__(self):
-        template = '{0.id} {0.username} {0.is_Admin} {0.date_created}'
+        template = '{0.id} {0.name} {0.is_Admin} {0.date_created}'
         return template.format(self)
 
-# Conversions Table Model
-class Conversions(UserMixin, db.Model):
-    __tablename__ = 'Conversions'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer)
-    username = db.Column(db.String(50), nullable=False)
-    fromCurrency = db.Column(db.String(3), nullable=False)
-    toCurrency = db.Column(db.String(3), nullable=False)
-    fromValue = db.Column(db.String(20), nullable=False)
-    toValue = db.Column(db.String(20), nullable=False)
-    rate = db.Column(db.String(15), nullable=False)
-    date_saved = db.Column(db.DateTime, default=datetime.utcnow)
+# Contacts Table Model
+class Contacts(db.Model):
+    __tablename__="Contacts"
+    contactID = db.Column(db.Integer, primary_key=True)
+    fName =db.Column(db.String, nullable=False)
+    lName =db.Column(db.String, nullable=False)
+    mName =db.Column(db.String, nullable=False)
+    workCompany = db.Column(db.String, nullable=True)
+    mobile =db.Column(db.String, nullable=False)
+    homePhone =db.Column(db.String, nullable=True)
+    workPhone =db.Column(db.String, nullable=True)
+    email = db.Column(db.String, nullable=True)
+    jobTitle = db.Column(db.String, nullable=True) 
     
     def __repr__(self):
-        template = '{0.user_id} {0.username} {0.fromCurrency} {0.toCurrency} {0.fromValue} {0.toValue} {0.rate} {0.date_saved}'
+        template = '{0.id} {0.fName} {0.mobile} {0.createdBy}'
         return template.format(self)

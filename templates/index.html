@@ -1,0 +1,68 @@
+{% extends "layout_reg.html" %}
+
+{% block title %}
+    Contact List!
+{% endblock %}
+
+{% block body %}
+ 	<form action="{{ url_for('addcontact')}}" method="POST"> 
+		<div class="form-group"><h5><center>Contact Details</center></h5></div>
+		
+		<div class="form-group">
+            <input class="form-control" type="text" name="FirstName" placeholder="First Name" value="{{cont.fName}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="MiddleName" placeholder="Middle Name" value="{{cont.mName}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="LastName" placeholder="Last Name" value="{{cont.lName}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="WorkCompany" placeholder="Work Company" value="{{cont.workCompany}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="WorkJobTitle" placeholder="Job Title" value="{{cont.jobTitle}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="Mobile" placeholder="Mobile" value="{{cont.mobile}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="HomePhone" placeholder="Home Phone" value="{{cont.homePhone}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="WorkPhone" placeholder="Work Phone" value="{{cont.workPhone}}">
+        </div>
+		<div class="form-group">
+            <input class="form-control" type="text" name="email" placeholder="Email" value="{{cont.email}}">
+        </div>
+		<div class="form-group">
+			<center><button class="btn btn-primary">Submit</button></center>
+		</div>
+		</form>
+	{% endblock %}
+	{% block content %}
+	
+	<table class="table">
+	<TH>
+	<TD><b>Name</b></TD>
+	<TD><b>Company</b></TD>
+	<TD><b>Job Title</b></TD>
+	<TD><b>Phones</b></TD>
+	<TD><b>Email</b></TD>
+	<TD></TD>
+	</TH>
+	{% for cl in contList %}
+	<TR>
+	<TD></TD>
+	<TD>{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
+	<TD>{{cl.workCompany}}</TD>
+	<TD>{{cl.jobTitle}}</TD>
+	<TD><b>Mobile:</b>{{cl.mobile}}<br><b>Work:</b>{{cl.workPhone}}<br><b>Work:</b>{{cl.homePhone}}</TD>
+	<TD>{{cl.email}}</TD>
+	<TD><a href="{{url_for('showContact', conid=cl.contactID)}}">Show</a></TD>
+	</TR>
+	{% endfor %}
+	</table>
+	{% endblock %}
+  </div>
+</div>
