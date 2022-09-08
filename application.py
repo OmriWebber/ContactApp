@@ -11,7 +11,7 @@ application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 if 'RDS_DB_NAME' in os.environ:
-    application.config['SQLALCHEMY_DATABASE_URI'] = "postgresql+pg8000://postgres:postgres@database-contact-app.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/database-contact-app"
+    application.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://admin:contactapp@sql-database-contact-app.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/sql-database-contact-app?charset=utf8mb4"
 else:
     application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
     
