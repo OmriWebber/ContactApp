@@ -1,0 +1,43 @@
+@font-face {
+    font-family: AfterNight;
+    src: url('../fonts/AfterNight.ttf');
+}
+
+.navbar {
+    background-color: grey;
+}
+
+.navbar-brand {
+    font-size: 30px;
+    font-family: AfterNight;
+}
+
+.btn-submit {
+    float: right;
+}
+
+.form-group {
+    padding: 5px;
+}
+
+.form-input-title {
+    padding: 5px;
+    margin: 0px;
+}
+
+h3 {
+    margin-top: 50px;
+}
+
+.action-buttons .btn {
+    margin: 3px;
+    padding: 8px 23px;
+}
+
+.float-right {
+    float: right;
+}
+
+.delete-contact-button {
+    
+}
