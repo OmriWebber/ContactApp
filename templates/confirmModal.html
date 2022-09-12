@@ -1,0 +1,20 @@
+<!-- Modal -->
+<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="confirmModalLabel">Delete Contact</h5>
+          <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete <span id="contactName"></span> from your contact list?</p>
+            <div class="row">
+                <a class="col-3 float-right close btn btn-submit btn-danger">Cancel</a>
+                <a id="confirm-delete-button" href="{{ url_for('index') }}" class="col-3 ml-auto float-right btn btn-submit btn-success">Confirm</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>

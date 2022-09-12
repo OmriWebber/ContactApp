@@ -1,68 +1,55 @@
-{% extends "layout_reg.html" %}
+<!DOCTYPE html>
+<html>
+    {% include ['head.html'] %}
+    <body>
+        
+        {% include ['navbar.html'] %}
+        {% include ['addContactModal.html'] %}
+        {% include ['confirmModal.html'] %}
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <center><h3>Contact List</h3></center>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm" style="margin-top:5%">
+                    <table id="contactTable" class="table">
+                        <thead>
+                            <TD><b>Name</b></TD>
+                            <TD><b>Company</b></TD>
+                            <TD><b>Job Title</b></TD>
+                            <TD><b>Phones</b></TD>
+                            <TD><b>Email</b></TD>
+                            <TD><input id="searchContact" onkeyup="searchFunction()" type="search" placeholder="Search for contacts.."></TD>
+                        </thead>
+                        <tbody id="table-tbody">
+                        {% for cl in contList %}
+                            <tr>
+                                <TD class="name">{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
+                                <TD>{{cl.workCompany}}</TD>
+                                <TD>{{cl.jobTitle}}</TD>
+                                <TD>
+                                    <b>Mobile:</b>{{cl.mobile}}<br>
+                                    <b>Work:</b>{{cl.workPhone}}<br>
+                                    <b>Home:</b>{{cl.homePhone}}
+                                </TD>
+                                <TD>{{cl.email}}</TD>
+                                <TD class="action-buttons">
+                                    <a class="btn btn-info" href="{{url_for('showContact', conid=cl.contactID)}}">Show</a>
+                                    <button type="button" class="delete-contact-button btn btn-danger" data-fname={{cl.fName}} data-lname={{cl.lName}} data-id={{cl.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal">Delete</button>
+                                </TD>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-{% block title %}
-    Contact List!
-{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous"></script>
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
-{% block body %}
- 	<form action="{{ url_for('addcontact')}}" method="POST"> 
-		<div class="form-group"><h5><center>Contact Details</center></h5></div>
-		
-		<div class="form-group">
-            <input class="form-control" type="text" name="FirstName" placeholder="First Name" value="{{cont.fName}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="MiddleName" placeholder="Middle Name" value="{{cont.mName}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="LastName" placeholder="Last Name" value="{{cont.lName}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="WorkCompany" placeholder="Work Company" value="{{cont.workCompany}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="WorkJobTitle" placeholder="Job Title" value="{{cont.jobTitle}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="Mobile" placeholder="Mobile" value="{{cont.mobile}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="HomePhone" placeholder="Home Phone" value="{{cont.homePhone}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="WorkPhone" placeholder="Work Phone" value="{{cont.workPhone}}">
-        </div>
-		<div class="form-group">
-            <input class="form-control" type="text" name="email" placeholder="Email" value="{{cont.email}}">
-        </div>
-		<div class="form-group">
-			<center><button class="btn btn-primary">Submit</button></center>
-		</div>
-		</form>
-	{% endblock %}
-	{% block content %}
-	
-	<table class="table">
-	<TH>
-	<TD><b>Name</b></TD>
-	<TD><b>Company</b></TD>
-	<TD><b>Job Title</b></TD>
-	<TD><b>Phones</b></TD>
-	<TD><b>Email</b></TD>
-	<TD></TD>
-	</TH>
-	{% for cl in contList %}
-	<TR>
-	<TD></TD>
-	<TD>{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
-	<TD>{{cl.workCompany}}</TD>
-	<TD>{{cl.jobTitle}}</TD>
-	<TD><b>Mobile:</b>{{cl.mobile}}<br><b>Work:</b>{{cl.workPhone}}<br><b>Work:</b>{{cl.homePhone}}</TD>
-	<TD>{{cl.email}}</TD>
-	<TD><a href="{{url_for('showContact', conid=cl.contactID)}}">Show</a></TD>
-	</TR>
-	{% endfor %}
-	</table>
-	{% endblock %}
-  </div>
-</div>
+    </body>
+</html>

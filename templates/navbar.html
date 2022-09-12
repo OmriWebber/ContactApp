@@ -1,0 +1,21 @@
+<nav class="navbar sticky-top navbar-expand-md navbar-dark">
+    <div class="container">
+      <a class="navbar-brand" href="{{ url_for('index') }}">{{name}}</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse d-flex" id="navbarNavAltMarkup">
+        <div class="navbar-nav ms-auto">
+          <a class="nav-link" href="{{ url_for('index') }}">Contact List</a>
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#AddContactModal"> Add Contact</button>
+          {% if current_user.is_authenticated %}
+            <a class="nav-link user-name" href="{{ url_for('profile') }}"><span class="user-container"><span class="user-bg"><p class="user-letter"></p></span></span> {{ user.username }}</a>
+            <a class="nav-link logout" href="{{ url_for('auth.logout') }}">Logout</a>
+          {% endif %}
+          {% if not current_user.is_authenticated %}
+
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
