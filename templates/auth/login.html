@@ -1,47 +1,31 @@
 <!doctype html>
 <html lang="en">
   {% include ['head.html'] %}
-
   <body>
-    {% include ['navbar.html'] %}
     <div class="container">
-      <div class="content">
-        <div class = "reg_login_form">
-
+      {% if msg %}
+      <div class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="text-decoration: none;color: red;font-size: initial;">{{msg}} &times;</a>
+      </div>
+      {% endif %}
+      <div class="row">
         <form method="post">
-          <h4>Log-in or Sign-up</h4><br>
-            <label for="username">Username</label>
-            <input name="username" id="username" required><br>
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" required><br>
-            <input class="button" type="submit" value="Log In">
-            
+          <h4>Enter Passcode</h4><br>
+          <input class="col-4" type="passcode" placeholder="Passcode" name="passcode" id="passcode" required><br>
+          <input class="col-4 btn btn-success" type="submit" value="Log In">
         </form>
-        {% if msg %}
-        <div class="alert alert-danger alert-dismissible">
-          <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="text-decoration: none;color: red;font-size: initial;">{{msg}} &times;</a>
-        </div>
-        {% endif %}
-        <br><h5>Need an Account?</h5><br>
-        <a id="bluebtn" href="/auth/register" style="text-decoration: none;color: white;text-decoration: none;border: none;padding: 5px 20px;border-radius: 5px;background-color: rgb(33 109 255 / 69%);transition: 0.2s ease-in-out all;">Sign up for a new Account</a>
+      </div>
 
-      </div>
-      </div>
+      <div class="row">
+        <div class="col-12 align-self-center">
+          <h5>Need an Account?</h5>
+          <a class="col-4 btn btn-primary" href="/auth/register">Sign up for a new Account</a>
+        </div>
+        </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script>
-      $( document ).ready(function() {
-        user_name = $('.user-name').text().slice(1,2);
-        $('.user-letter').text(user_name.toUpperCase());
-      )};
-    </script>
-    <script>
-      $(".loading-container").hide();
-      $(".container").show();
-    </script>
-
   </body>
 
 </html>

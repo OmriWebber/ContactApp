@@ -10,9 +10,11 @@
         </div>
         <div class="modal-body">
             <p>Are you sure you want to delete <span id="contactName"></span> from your contact list?</p>
-            <div class="row">
-                <a class="col-3 float-right close btn btn-submit btn-danger">Cancel</a>
-                <a id="confirm-delete-button" href="{{ url_for('index') }}" class="col-3 ml-auto float-right btn btn-submit btn-success">Confirm</a>
+        </div>
+        <div class="modal-footer container">
+            <div class="row"> 
+                <button type="button" class="col-6 align-self-start btn close btn-danger" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                <a id="confirm-delete-button" class="col-6 align-self-end btn btn-submit btn-success">Confirm</a>
             </div>
         </div>
       </div>

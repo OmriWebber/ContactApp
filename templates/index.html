@@ -15,33 +15,31 @@
             <div class="row">
                 <div class="col-sm" style="margin-top:5%">
                     <table id="contactTable" class="table">
-                        <thead>
-                            <TD><b>Name</b></TD>
-                            <TD><b>Company</b></TD>
-                            <TD><b>Job Title</b></TD>
-                            <TD><b>Phones</b></TD>
-                            <TD><b>Email</b></TD>
-                            <TD><input id="searchContact" onkeyup="searchFunction()" type="search" placeholder="Search for contacts.."></TD>
-                        </thead>
-                        <tbody id="table-tbody">
+                        <tr>
+                            <th><b>Name</b></th>
+                            <th><b>Company</b></th>
+                            <th><b>Job Title</b></th>
+                            <th><b>Phones</b></th>
+                            <th><b>Email</b></th>
+                            <td><input id="searchContact" onkeyup="searchFunction()" type="input" placeholder="Search for contacts.."></td>
+                        </tr>
                         {% for cl in contList %}
-                            <tr>
-                                <TD class="name">{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
-                                <TD>{{cl.workCompany}}</TD>
-                                <TD>{{cl.jobTitle}}</TD>
-                                <TD>
-                                    <b>Mobile:</b>{{cl.mobile}}<br>
-                                    <b>Work:</b>{{cl.workPhone}}<br>
-                                    <b>Home:</b>{{cl.homePhone}}
-                                </TD>
-                                <TD>{{cl.email}}</TD>
-                                <TD class="action-buttons">
-                                    <a class="btn btn-info" href="{{url_for('showContact', conid=cl.contactID)}}">Show</a>
-                                    <button type="button" class="delete-contact-button btn btn-danger" data-fname={{cl.fName}} data-lname={{cl.lName}} data-id={{cl.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal">Delete</button>
-                                </TD>
-                            </tr>
+                        <tr>
+                            <TD class="name">{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
+                            <TD>{{cl.workCompany}}</TD>
+                            <TD>{{cl.jobTitle}}</TD>
+                            <TD>
+                                <b>Mobile:</b>{{cl.mobile}}<br>
+                                <b>Work:</b>{{cl.workPhone}}<br>
+                                <b>Home:</b>{{cl.homePhone}}
+                            </TD>
+                            <TD>{{cl.email}}</TD>
+                            <TD class="action-buttons">
+                                <a class="btn btn-info" href="{{url_for('showContact', conid=cl.contactID)}}">Show</a>
+                                <button class="delete-contact-button btn btn-danger" data-fname={{cl.fName}} data-lname={{cl.lName}} data-id={{cl.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal">Delete</button>
+                            </TD>
+                        </tr>
                         {% endfor %}
-                        </tbody>
                     </table>
                 </div>
             </div>
