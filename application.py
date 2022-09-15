@@ -1,20 +1,23 @@
 from flask import Flask, render_template, request, redirect, jsonify, url_for
 from flask_login import LoginManager, login_required, current_user
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import create_engine, text
 from flask_migrate import Migrate
 from models import *
 import os
 
 application = Flask(__name__)
 
+application.secret_key = 'dev'
+
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 if 'RDS_DB_NAME' in os.environ:
-    application.config['SQLALCHEMY_DATABASE_URI'] = "mysql+pymysql://admin:contactapp@sql-database-contact-app.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/sql-database-contact-app?charset=utf8mb4"
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/contact-app-database'
 else:
     # application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:contactapp@sql-database-contact-app.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/sql-database-contact-app?charset=utf8mb4"
     application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+    # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/contact-app-database'
+    
     
 db.init_app(application)
 migrate = Migrate(application, db)
@@ -32,12 +35,29 @@ def load_user(user_id):
 from auth import auth as auth_blueprint
 application.register_blueprint(auth_blueprint)
 
+def logThis(function, user, userID, contact, contactID):
+    date = datetime.now()
+    dateString = str(date)
+    tuple = ('[',dateString,'] ',user,':',userID,' ',function,' ',contact,':',str(contactID))
+    log = "".join(map(str, tuple))
+    with open("log.txt", "a+") as file_object:
+        # Move read cursor to the start of file.
+        file_object.seek(0)
+        # If file is not empty then append '\n'
+        data = file_object.read(100)
+        if len(data) > 0 :
+            file_object.write("\n")
+        file_object.write(log)
+
+
 @application.route("/")
+@login_required
 def index():
     contList=Contacts.query.all()
     cont=Contacts.query.first()
-    return render_template("index.html", cont=cont, contList=contList, name="Contact App")
-    
+    return render_template("index.html", cont=cont, contList=contList, name="Contact App", user=current_user)
+
+
 @application.route("/addContact", methods=["POST"])
 def addContact():
     #store values recieved from HTML form in local variables
@@ -57,14 +77,15 @@ def addContact():
     db.session.commit()
     cont=Contacts.query.filter_by(contactID=contact.contactID).first()
     contList=Contacts.query.all()
-    return render_template("index.html",cont=cont, contList=contList, name="Contact App", msg="Contact Added!") 
+    return redirect(url_for('index'))
     
+
 @application.route("/showContact/<conid>")
 def showContact(conid):
     # select row from contacts table for contact ID passed from main page
     cont=Contacts.query.filter_by(contactID=conid).one()
     contList=Contacts.query.all()
-    return render_template("index.html",cont=cont, contList=contList, name="Contact App")
+    return redirect(url_for('index'))
 
 @application.route("/deleteContact/<int:conid>")
 def deleteContact(conid):
@@ -72,8 +93,13 @@ def deleteContact(conid):
     cont = Contacts.query.filter_by(contactID=conid).one()
     db.session.delete(cont)
     db.session.commit()
-    contList=Contacts.query.all()
-    return redirect(url_for('index'))  
+    logThis("deleted", current_user.name, current_user.id, cont.fName, cont.contactID)
+    return redirect(url_for('index'))
+
+@application.route("/profile")
+def profile():
+    return render_template('profile.html')
+
 
 if __name__ == "__main__":
     # Setting debug to True enables debug output. This line should be
