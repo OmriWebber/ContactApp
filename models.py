@@ -9,8 +9,8 @@ db = SQLAlchemy()
 class Users(UserMixin, db.Model):
     __tablename__ = 'Users'
     id = db.Column(db.Integer, primary_key=True)
-    passcode = db.Column(db.String, nullable=False, unique=True)
-    name = db.Column(db.String, nullable=False)
+    passcode = db.Column(db.String(10), nullable=False, unique=True)
+    name = db.Column(db.String(50), nullable=False)
     is_Admin = db.Column(db.Boolean, nullable=False, default=False)
     dateCreated = db.Column(db.DateTime, default=datetime.utcnow)
     
@@ -22,16 +22,16 @@ class Users(UserMixin, db.Model):
 class Contacts(db.Model):
     __tablename__="Contacts"
     contactID = db.Column(db.Integer, primary_key=True)
-    fName =db.Column(db.String, nullable=False)
-    lName =db.Column(db.String, nullable=False)
-    mName =db.Column(db.String, nullable=False)
-    workCompany = db.Column(db.String, nullable=True)
-    mobile =db.Column(db.String, nullable=False)
-    homePhone =db.Column(db.String, nullable=True)
-    workPhone =db.Column(db.String, nullable=True)
-    email = db.Column(db.String, nullable=True)
-    jobTitle = db.Column(db.String, nullable=True)
-    imageURL = db.Column(db.String, nullable=True)
+    fName =db.Column(db.String(50), nullable=False)
+    lName =db.Column(db.String(50), nullable=True)
+    mName =db.Column(db.String(50), nullable=True)
+    workCompany = db.Column(db.String(50), nullable=True)
+    mobile =db.Column(db.String(20), nullable=True)
+    homePhone =db.Column(db.String(20), nullable=True)
+    workPhone =db.Column(db.String(20), nullable=True)
+    email = db.Column(db.String(50), nullable=True)
+    jobTitle = db.Column(db.String(50), nullable=True)
+    imageURL = db.Column(db.String(100), nullable=True)
     
     def __repr__(self):
         template = '{0.id} {0.fName} {0.mobile}'

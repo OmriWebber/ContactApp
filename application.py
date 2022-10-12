@@ -12,12 +12,11 @@ application.secret_key = 'dev'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 if 'RDS_DB_NAME' in os.environ:
-    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/contact-app-database'
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
 else:
-    # application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://admin:contactapp@sql-database-contact-app.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/sql-database-contact-app?charset=utf8mb4"
+    print("test")
+    # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
     application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
-    # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com/contact-app-database'
-    
     
 db.init_app(application)
 migrate = Migrate(application, db)
@@ -38,7 +37,7 @@ application.register_blueprint(auth_blueprint)
 def logThis(function, user, userID, contact, contactID):
     date = datetime.now()
     dateString = str(date)
-    tuple = ('[',dateString,'] ',user,':',userID,' ',function,' ',contact,':',str(contactID))
+    tuple = ('[',dateString,'] ',user,':',userID,' ',function,' ',contact,':',contactID)
     log = "".join(map(str, tuple))
     with open("log.txt", "a+") as file_object:
         # Move read cursor to the start of file.
@@ -57,8 +56,16 @@ def index():
     cont=Contacts.query.first()
     return render_template("index.html", cont=cont, contList=contList, name="Contact App", user=current_user)
 
+@application.route("/test")
+@login_required
+def test():
+    contList=Contacts.query.all()
+    cont=Contacts.query.first()
+    return render_template("test1.html", cont=cont, contList=contList, name="Contact App", user=current_user)
+
 
 @application.route("/addContact", methods=["POST"])
+@login_required
 def addContact():
     #store values recieved from HTML form in local variables
     fName=request.form.get("FirstName")
@@ -86,6 +93,7 @@ def showContact(conid):
     cont=Contacts.query.filter_by(contactID=conid).one()
     contList=Contacts.query.all()
     return redirect(url_for('index'))
+
 
 @application.route("/deleteContact/<int:conid>")
 def deleteContact(conid):
