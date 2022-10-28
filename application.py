@@ -14,9 +14,8 @@ application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 if 'RDS_DB_NAME' in os.environ:
     application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
 else:
-    print("test")
     # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
-    application.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+    application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost:3306/contactapp"
     
 db.init_app(application)
 migrate = Migrate(application, db)
@@ -84,15 +83,16 @@ def addContact():
     db.session.commit()
     cont=Contacts.query.filter_by(contactID=contact.contactID).first()
     contList=Contacts.query.all()
-    return redirect(url_for('index'))
-    
+    return render_template("showContact.html", cont=cont, msg='', contList=contList, name="Contact App", user=current_user)
 
+    
 @application.route("/showContact/<conid>")
 def showContact(conid):
     # select row from contacts table for contact ID passed from main page
     cont=Contacts.query.filter_by(contactID=conid).one()
     contList=Contacts.query.all()
-    return redirect(url_for('index'))
+    print(cont)
+    return render_template("showContact.html", cont=cont, contList=contList, name="Contact App", user=current_user)
 
 
 @application.route("/deleteContact/<int:conid>")

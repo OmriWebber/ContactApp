@@ -31,8 +31,9 @@ class Contacts(db.Model):
     workPhone =db.Column(db.String(20), nullable=True)
     email = db.Column(db.String(50), nullable=True)
     jobTitle = db.Column(db.String(50), nullable=True)
-    imageURL = db.Column(db.String(100), nullable=True)
+    imageURL = db.Column(db.String(200), nullable=True)
+    createdBy = db.Column(db.Integer, nullable=True)
     
     def __repr__(self):
-        template = '{0.id} {0.fName} {0.mobile}'
+        template = '{0.contactID} {0.fName} {0.mobile}'
         return template.format(self)
