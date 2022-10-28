@@ -91,3 +91,18 @@ h3 {
 th {
     font-weight: 400;
 }
+
+.showContactContainer .row {
+    margin: auto 0;
+    margin-top: 50px;
+    
+}
+
+.showContactContainer .row div {
+    margin: 6px;
+}
+
+.showContactContainer .row .profile-img {
+    background-color: grey;
+    min-height: 100%;
+}
