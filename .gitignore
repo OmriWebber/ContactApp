@@ -134,3 +134,7 @@ dmypy.json
 !.elasticbeanstalk/*.global.yml
 
 *.db
+
+migrations/
+
+.ebextensions/
