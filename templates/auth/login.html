@@ -11,7 +11,7 @@
       <div class="row">
         <form method="post">
           <h4>Enter Passcode</h4><br>
-          <input class="col-4" type="passcode" placeholder="Passcode" name="passcode" id="passcode" required><br>
+          <input class="col-4" type="text" name="passcode" maxlength="4" id="passcode" pattern="\d{4}" required><br>
           <input class="col-4 btn btn-success" type="submit" value="Log In">
         </form>
       </div>
