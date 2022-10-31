@@ -1,79 +1,84 @@
 <!-- Modal -->
-<div class="modal fade" id="AddContactModal" tabindex="-1" role="dialog" aria-labelledby="AddContactModalLabel" aria-hidden="true">
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Add Contact</h5>
+          <h5 class="modal-title">Edit Contact</h5>
           <button type="button" class="btn close" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-            <form action="{{ url_for('addContact')}}" method="post" enctype="multipart/form-data"> 
+            <form action="{{ url_for('editContact', conid=cont.contactID)}}" method="POST" enctype="multipart/form-data"> 
                 <div class="form-group row">
                     <div class="col-6">
                         <p class="form-input-title">First Name</p>
-                        <input class="form-control" type="text" name="FirstName" placeholder="First Name">
+                        <input class="form-control" type="text" name="FirstName" value="{{ cont.fName }}">
                     </div>
                     <div class="col-6">
                         <p class="form-input-title">Middle Name</p>
-                        <input class="form-control" type="text" name="MiddleName" placeholder="Middle Name">
+                        <input class="form-control" type="text" name="MiddleName" value="{{ cont.mName }}">
                     </div>
                 </div>
                 
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Last Name</p>
-                        <input class="form-control" type="text" name="LastName" placeholder="Last Name">
+                        <input class="form-control" type="text" name="LastName" value="{{ cont.lName }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Work Company</p>
-                        <input class="form-control" type="text" name="WorkCompany" placeholder="Work Company">
+                        <input class="form-control" type="text" name="WorkCompany" value="{{ cont.workCompany }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Job Title</p>
-                        <input class="form-control" type="text" name="WorkJobTitle" placeholder="Job Title">
+                        <input class="form-control" type="text" name="JobTitle" value="{{ cont.jobTitle }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Mobile Phone</p>
-                        <input class="form-control" type="text" name="Mobile" placeholder="Mobile">
+                        <input class="form-control" type="text" name="Mobile" value="{{ cont.mobile }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Home Phone</p>
-                        <input class="form-control" type="text" name="HomePhone" placeholder="Home Phone">
+                        <input class="form-control" type="text" name="HomePhone" value="{{ cont.homePhone }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Work Phone</p>
-                        <input class="form-control" type="text" name="WorkPhone" placeholder="Work Phone">
+                        <input class="form-control" type="text" name="WorkPhone" value="{{ cont.workPhone }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
                         <p class="form-input-title">Email</p>
-                        <input class="form-control" type="text" name="email" placeholder="Email">
+                        <input class="form-control" type="text" name="email" value="{{ cont.email }}">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-12">
-                        <p class="form-input-title">Image</p>
-                        <input type="file" id="profilePictureUpload" name="profilePicture">
+                        <p class="form-input-title">Upload Image</p>
+                        <div class="row">
+                            {% if cont.imageURL %}
+                                <img class="pfpPreview" src="{{ url_for('static', filename=cont.imageURL) }}">
+                            {% endif %}
+                            <input type="file" id="profilePictureUpload" name="profilePicture">
+
+                        </div>
                     </div>
                 </div>
                 <br>
                 <div class="form-group row">
                     <div class="col-12">
-                        <input type="reset" class="col-3 btn btn-secondary">
-                        <button type="submit" class="col-3 float-right btn btn-submit btn-primary">Submit</button>
+                        <button type="submit" class="col-5 float-right btn btn-submit btn-primary">Finish Editing</button>
                     </div>
                 </div>
             </form>
