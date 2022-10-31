@@ -1,15 +1,19 @@
-from flask import Flask, render_template, request, redirect, jsonify, url_for
+from flask import Flask, render_template, request, redirect, jsonify, url_for, flash
 from flask_login import LoginManager, login_required, current_user
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+from werkzeug.utils import secure_filename
 from models import *
 import os
+
+UPLOAD_FOLDER = 'static/img/profilePictures/'
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
 
 application = Flask(__name__)
 
 application.secret_key = 'dev'
-
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if 'RDS_DB_NAME' in os.environ:
     application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
@@ -33,6 +37,9 @@ def load_user(user_id):
 from auth import auth as auth_blueprint
 application.register_blueprint(auth_blueprint)
 
+def allowed_file(filename):     
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 def logThis(function, user, userID, contact, contactID):
     date = datetime.now()
     dateString = str(date)
@@ -53,7 +60,8 @@ def logThis(function, user, userID, contact, contactID):
 def index():
     contList=Contacts.query.all()
     cont=Contacts.query.first()
-    return render_template("index.html", cont=cont, contList=contList, name="Contact App", user=current_user)
+    msg = ''
+    return render_template("index.html", cont=cont, contList=contList, msg=msg, name="Contact App", user=current_user)
 
 @application.route("/test")
 @login_required
@@ -63,27 +71,44 @@ def test():
     return render_template("test1.html", cont=cont, contList=contList, name="Contact App", user=current_user)
 
 
-@application.route("/addContact", methods=["POST"])
+@application.route('/addContact', methods=['POST', 'GET'])
 @login_required
 def addContact():
-    #store values recieved from HTML form in local variables
-    fName=request.form.get("FirstName")
-    lName=request.form.get("LastName")
-    mName=request.form.get("MiddleName")
-    workCompany=request.form.get("WorkCompany")
-    jobTitle=request.form.get("WorkJobTitle")
-    mobile=request.form.get("Mobile")
-    homePhone=request.form.get("HomePhone")
-    workPhone=request.form.get("WorkPhone")
-    email=request.form.get("email")
-    
-    # Pass on the local values to the corresponding model
-    contact = Contacts( fName=fName,lName=lName,mName=mName,workCompany=workCompany,jobTitle=jobTitle,mobile=mobile,homePhone=homePhone,workPhone=workPhone,email=email)
-    db.session.add(contact)
-    db.session.commit()
-    cont=Contacts.query.filter_by(contactID=contact.contactID).first()
+    if request.method == 'POST':
+        #store values recieved from HTML form in local variables
+        fName=request.form.get("FirstName")
+        lName=request.form.get("LastName")
+        mName=request.form.get("MiddleName")
+        workCompany=request.form.get("WorkCompany")
+        jobTitle=request.form.get("WorkJobTitle")
+        mobile=request.form.get("Mobile")
+        homePhone=request.form.get("HomePhone")
+        workPhone=request.form.get("WorkPhone")
+        email=request.form.get("email")
+        
+        if 'profilePicture' not in request.files:
+            flash('No file part')
+            print("No file part")
+            return redirect(request.url)
+        file=request.files['profilePicture']
+        if file.filename == '':
+            flash('No selected file')
+            print("No selected file")
+            return redirect(request.url)
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            imageURL = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+            imageURLforDB = os.path.join('img/profilePictures/', filename)
+            file.save(imageURL)
+            
+        
+        # Pass on the local values to the corresponding model
+        contact = Contacts( fName=fName,lName=lName,mName=mName,workCompany=workCompany,jobTitle=jobTitle,mobile=mobile,homePhone=homePhone,workPhone=workPhone,email=email,imageURL=imageURLforDB)
+        db.session.add(contact)
+        db.session.commit()
+        
     contList=Contacts.query.all()
-    return render_template("showContact.html", cont=cont, msg='', contList=contList, name="Contact App", user=current_user)
+    return render_template("index.html", msg='', contList=contList, name="Contact App", user=current_user)
 
     
 @application.route("/showContact/<conid>")
@@ -91,7 +116,6 @@ def showContact(conid):
     # select row from contacts table for contact ID passed from main page
     cont=Contacts.query.filter_by(contactID=conid).one()
     contList=Contacts.query.all()
-    print(cont)
     return render_template("showContact.html", cont=cont, contList=contList, name="Contact App", user=current_user)
 
 
@@ -102,6 +126,47 @@ def deleteContact(conid):
     db.session.delete(cont)
     db.session.commit()
     logThis("deleted", current_user.name, current_user.id, cont.fName, cont.contactID)
+    return redirect(url_for('index'))
+
+@application.route("/editContact/<conid>", methods=['POST', 'GET'])
+def editContact(conid):
+    if request.method == 'POST':
+        # select row from contacts table for contact ID passed from main page
+        cont = Contacts.query.filter_by(contactID=conid).one()
+        fName=request.form.get("FirstName")
+        lName=request.form.get("LastName")
+        mName=request.form.get("MiddleName")
+        workCompany=request.form.get("WorkCompany")
+        jobTitle=request.form.get("JobTitle")
+        mobile=request.form.get("Mobile")
+        homePhone=request.form.get("HomePhone")
+        workPhone=request.form.get("WorkPhone")
+        email=request.form.get("email")
+
+        if 'profilePicture' not in request.files:
+            print("No file")
+        file=request.files['profilePicture']
+        if file.filename == '':
+            print("No selected file")
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            imageURL = os.path.join(application.config['UPLOAD_FOLDER'], filename)
+            imageURLforDB = os.path.join('img/profilePictures/', filename)
+            cont.imageURL = imageURLforDB
+            file.save(imageURL)
+        
+        cont.fName = fName
+        cont.lName = lName
+        cont.mName = mName
+        cont.workCompany = workCompany
+        cont.jobTitle = jobTitle
+        cont.mobile = mobile
+        cont.homePhone = homePhone
+        cont.workPhone = workPhone
+        cont.email = email
+        
+        db.session.commit()
+        logThis("edited", current_user.name, current_user.id, cont.fName, cont.contactID)
     return redirect(url_for('index'))
 
 @application.route("/profile")
