@@ -16,6 +16,7 @@
                 <div class="col-sm" style="margin-top:5%">
                     <table id="contactTable" class="table">
                         <tr>
+                            <th></th>
                             <th><b>Name</b></th>
                             <th><b>Company</b></th>
                             <th><b>Job Title</b></th>
@@ -25,6 +26,14 @@
                         </tr>
                         {% for cl in contList %}
                         <tr>
+                            <TD>
+                                {% if cl.imageURL %}
+                                    <img class="previewProfilePicture" src="{{url_for('static', filename=cl.imageURL)}}">
+                                {% else %}
+                                    <img class="previewProfilePicture" src="{{url_for('static', filename='img/profilePictures/default.jpg')}}">
+                                {% endif %}
+
+                            </TD>
                             <TD class="name">{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
                             <TD>{{cl.workCompany}}</TD>
                             <TD>{{cl.jobTitle}}</TD>
