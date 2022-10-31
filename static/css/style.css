@@ -106,3 +106,7 @@ th {
     background-color: grey;
     min-height: 100%;
 }
+
+.previewProfilePicture {
+    height: 50px;
+}
