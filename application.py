@@ -4,6 +4,9 @@ from flask_migrate import Migrate
 from werkzeug.utils import secure_filename
 from models import *
 import os
+import pymysql
+
+pymysql.install_as_MySQLdb()
 
 UPLOAD_FOLDER = 'static/img/profilePictures/'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
@@ -16,9 +19,9 @@ application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 if 'RDS_DB_NAME' in os.environ:
-    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
+    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:CS204password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_database'
 else:
-    # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_db'
+    # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:CS204password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_database'
     application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost:3306/contactapp"
     
 db.init_app(application)
@@ -85,16 +88,13 @@ def addContact():
         homePhone=request.form.get("HomePhone")
         workPhone=request.form.get("WorkPhone")
         email=request.form.get("email")
+        imageURLforDB='img/profilePictures/default.jpg'
         
         if 'profilePicture' not in request.files:
-            flash('No file part')
             print("No file part")
-            return redirect(request.url)
         file=request.files['profilePicture']
         if file.filename == '':
-            flash('No selected file')
             print("No selected file")
-            return redirect(request.url)
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             imageURL = os.path.join(application.config['UPLOAD_FOLDER'], filename)
