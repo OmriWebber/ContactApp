@@ -24,31 +24,33 @@
                             <th><b>Email</b></th>
                             <td><input id="searchContact" onkeyup="searchFunction()" type="input" placeholder="Search for contacts.."></td>
                         </tr>
-                        {% for cl in contList %}
-                        <tr>
-                            <TD>
-                                {% if cl.imageURL %}
-                                    <img class="previewProfilePicture" src="{{url_for('static', filename=cl.imageURL)}}">
-                                {% else %}
-                                    <img class="previewProfilePicture" src="{{url_for('static', filename='img/profilePictures/default.jpg')}}">
-                                {% endif %}
+                        <tbody id="contactTableBody">
+                            {% for cl in contList %}
+                                <tr>
+                                    <TD>
+                                        {% if cl.imageURL %}
+                                            <img class="previewProfilePicture" src="{{url_for('static', filename=cl.imageURL)}}">
+                                        {% else %}
+                                            <img class="previewProfilePicture" src="{{url_for('static', filename='img/profilePictures/default.jpg')}}">
+                                        {% endif %}
 
-                            </TD>
-                            <TD class="name">{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
-                            <TD>{{cl.workCompany}}</TD>
-                            <TD>{{cl.jobTitle}}</TD>
-                            <TD>
-                                <b>Mobile:</b>{{cl.mobile}}<br>
-                                <b>Work:</b>{{cl.workPhone}}<br>
-                                <b>Home:</b>{{cl.homePhone}}
-                            </TD>
-                            <TD>{{cl.email}}</TD>
-                            <TD class="action-buttons">
-                                <a class="btn btn-info" href="{{url_for('showContact', conid=cl.contactID)}}">Show</a>
-                                <button class="delete-contact-button btn btn-danger" data-fname={{cl.fName}} data-lname={{cl.lName}} data-id={{cl.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="fa-solid fa-trash"></i></button>
-                            </TD>
-                        </tr>
-                        {% endfor %}
+                                    </TD>
+                                    <TD class="name">{{cl.fName}} {{cl.mName}} {{cl.lName}}</TD>
+                                    <TD>{{cl.workCompany}}</TD>
+                                    <TD>{{cl.jobTitle}}</TD>
+                                    <TD>
+                                        <b>Mobile:</b>{{cl.mobile}}<br>
+                                        <b>Work:</b>{{cl.workPhone}}<br>
+                                        <b>Home:</b>{{cl.homePhone}}
+                                    </TD>
+                                    <TD>{{cl.email}}</TD>
+                                    <TD class="action-buttons">
+                                        <a class="btn btn-info" href="{{url_for('showContact', conid=cl.contactID)}}">Show</a>
+                                        <button class="delete-contact-button btn btn-danger" data-fname={{cl.fName}} data-lname={{cl.lName}} data-id={{cl.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="fa-solid fa-trash"></i></button>
+                                    </TD>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
                     </table>
                 </div>
             </div>

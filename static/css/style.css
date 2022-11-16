@@ -1,15 +1,20 @@
 @font-face {
     font-family: AfterNight;
-    src: url('../fonts/AfterNight.ttf');
+    src: url('https://fonts.cdnfonts.com/css/after-night');
 }
 
 .navbar {
-    background-color: grey;
+    background-color: rgb(190, 190, 190);
 }
 
 .navbar-brand {
     font-size: 30px;
-    font-family: AfterNight;
+    color: black;
+    font-family: 'After Night', sans-serif;
+}
+
+.nav-link {
+    color: black;
 }
 
 body {
@@ -102,11 +107,11 @@ th {
     margin: 6px;
 }
 
-.showContactContainer .row .profile-img {
-    background-color: grey;
-    min-height: 100%;
-}
 
 .previewProfilePicture {
     height: 50px;
+}
+
+#contactTable th:hover {
+    cursor: pointer;
 }

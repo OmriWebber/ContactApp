@@ -15,7 +15,9 @@
                 <div class="col-4">
                     <div class="profile-img">
                         {% if cont.imageURL %}
-                            <img height="300" src="{{ url_for('static', filename=cont.imageURL) }}">
+                            <img height="250" src="{{ url_for('static', filename=cont.imageURL) }}">
+                        {% else %}
+                            <img height="250" src="{{url_for('static', filename='img/profilePictures/default.jpg')}}">
                         {% endif %}
                     </div>
                 </div>
@@ -41,7 +43,14 @@
                         data-bs-target="#editModal">
                         <i class="fa-solid fa-pencil"></i>
                     </button>
-                    <button class="delete-contact-button btn btn-danger" data-fname={{cont.fName}} data-lname={{cont.lName}} data-id={{cont.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="fa-solid fa-trash"></i></button>
+                    <button class="delete-contact-button btn btn-danger" 
+                        data-fname={{cont.fName}} 
+                        data-lname={{cont.lName}} 
+                        data-id={{cont.contactID}} 
+                        data-bs-toggle="modal" 
+                        data-bs-target="#confirmModal">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
                 </div>
             </div>
         </div>

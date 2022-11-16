@@ -3,6 +3,7 @@ from flask_login import LoginManager, login_required, current_user
 from flask_migrate import Migrate
 from werkzeug.utils import secure_filename
 from models import *
+from flask_cdn import CDN 
 import os
 import pymysql
 
@@ -11,17 +12,21 @@ pymysql.install_as_MySQLdb()
 UPLOAD_FOLDER = 'static/img/profilePictures/'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
 
-
 application = Flask(__name__)
-
 application.secret_key = 'dev'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['CDN_DOMAIN'] = 'd2p1oqaafo5r3u.cloudfront.net'
+application.config['CDN_TIMESTAMP'] = False
 
-if 'RDS_DB_NAME' in os.environ:
-    application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:CS204password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_database'
+# If application detects rds database, use cloud database, if not use localhost
+if 'RDS_HOSTNAME' in os.environ:
+    print('AWS ELB ENV DETECTED')
+    CDN(application)
+    RDS_Connection_String = 'mysql+pymysql://' + os.environ['RDS_USERNAME'] + ':' + os.environ['RDS_PASSWORD'] + '@' + os.environ['RDS_HOSTNAME'] + ':' + os.environ['RDS_PORT'] + '/' + os.environ['RDS_DB_NAME']
+    application.config['SQLALCHEMY_DATABASE_URI'] = RDS_Connection_String
 else:
-    # application.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://admin:CS204password@contact-app-database.ch0or1bnad8y.ap-southeast-2.rds.amazonaws.com:3306/contact_app_database'
+    print('LOCAL ENV DETECTED')
     application.config['SQLALCHEMY_DATABASE_URI'] = "mysql://root:@localhost:3306/contactapp"
     
 db.init_app(application)
@@ -56,7 +61,6 @@ def logThis(function, user, userID, contact, contactID):
         if len(data) > 0 :
             file_object.write("\n")
         file_object.write(log)
-
 
 @application.route("/")
 @login_required

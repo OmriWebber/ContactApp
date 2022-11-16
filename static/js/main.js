@@ -3,12 +3,15 @@ function searchFunction() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("searchContact");
     filter = input.value.toUpperCase();
-    table = document.getElementById("table-tbody");
-    tr = table.getElementsByTagName("tr");
+    table = document.getElementById("contactTable");
+    tableBody = document.getElementById("contactTableBody");
+    tr = tableBody.getElementsByTagName("tr");
+
+    console.log(tr);
   
     // Loop through all table rows, and hide those who don't match the search query
     for (i = 0; i < tr.length; i++) {
-      td = tr[i].getElementsByTagName("td")[0];
+      td = tr[i].getElementsByTagName("td")[1];
       if (td) {
         txtValue = td.textContent || td.innerText;
         if (txtValue.toUpperCase().indexOf(filter) > -1) {
@@ -41,8 +44,8 @@ const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
     )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
 document.querySelectorAll('th').forEach(th => th.addEventListener('click', (() => {
-    const table = th.closest('tbody');
-    Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+    const table = document.getElementById('contactTableBody')
+    Array.from(table.querySelectorAll('tr:nth-child(n+1)'))
         .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
         .forEach(tr => table.appendChild(tr) );
 })));
