@@ -46,7 +46,7 @@
                                     <TD>{{cl.email}}</TD>
                                     <TD class="action-buttons">
                                         <a class="btn btn-info" href="{{url_for('showContact', conid=cl.contactID)}}">Show</a>
-                                        <button class="delete-contact-button btn btn-danger" data-fname={{cl.fName}} data-lname={{cl.lName}} data-id={{cl.contactID}} data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="fa-solid fa-trash"></i></button>
+                                        <button class="delete-contact-button btn btn-danger" data-fname="{{cl.fName}}" data-lname="{{cl.lName}}" data-id="{{cl.contactID}}" data-bs-toggle="modal" data-bs-target="#confirmModal"><i class="fa-solid fa-trash"></i></button>
                                     </TD>
                                 </tr>
                             {% endfor %}
