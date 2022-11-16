@@ -2,26 +2,45 @@
 <html lang="en">
   {% include ['head.html'] %}
   <body>
+    {% include ['navbar.html'] %}
+
     <div class="container">
       {% if msg %}
       <div class="alert alert-danger alert-dismissible">
         <a href="#" class="close" data-bs-dismiss="alert" aria-label="close" style="text-decoration: none;color: red;font-size: initial;">{{msg}} &times;</a>
       </div>
       {% endif %}
-      <div class="row">
-        <form method="post">
-          <h4>Enter Passcode</h4><br>
-          <input class="col-4" type="text" name="passcode" maxlength="4" id="passcode" pattern="\d{4}" required><br>
-          <input class="col-4 btn btn-success" type="submit" value="Log In">
-        </form>
-      </div>
 
-      <div class="row">
-        <div class="col-12 align-self-center">
-          <h5>Need an Account?</h5>
-          <a class="col-4 btn btn-primary" href="/auth/register">Sign up for a new Account</a>
-        </div>
-        </div>
+      <div class="reg_login_form row justify-content-center">
+        <div class="col-md-6">
+          <div class="card">
+            <header class="card-header">
+              <h4 class="card-title mt-2">Login</h4>
+            </header>
+            <article class="card-body">
+              <form method="post">
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <div class="form-row">
+                      <div class="col form-group">
+                        <label>Enter passcode </label>
+                        <input type="passcode" class="form-control" placeholder="" name="passcode" id="passcode" required>
+                      </div> <!-- form-group end.// -->
+                    </div> <!-- form-group end.// -->
+                  </div> <!-- form-row.// -->
+                  <div class="form-group">
+                    <input class="col-12 btn btn-success" type="submit" value="Log In">
+                  </div>
+              </form>
+          </div> <!-- form-group end.// -->
+          <div class="form-group">
+          </div> <!-- form-group// -->
+          </form>
+          </article> <!-- card-body end .// -->
+          <div class="border-top card-body text-center">Don't have an account? <a href="/auth/register">Register here</a>
+          </div>
+        </div> <!-- card.// -->
+      </div> <!-- col.//-->
     </div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>

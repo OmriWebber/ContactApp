@@ -5,23 +5,45 @@
   <body>
     {% include ['navbar.html'] %}
     <div class="container">
-      <div class="content">
-        <div class = "reg_login_form">
+      <div class = "reg_login_form">
         <p>{{ msg }}</p>
-        <form method="post">
-            <h4>Register your Account</h4>
-            <label for="name">Name</label>
-            <input name="name" id="name" required><br>
-            <label for="passcode">Passcode</label>
-            <input type="number" name="passcode" id="passcode" required><br>
-            <a class="btn btn-primary" onclick="generateNewPasscode()">Generate</a>
-            <input class="button" type="submit" value="Register"><br>
-          </form>
-
-          <br><h5>Already have an account?</h5><br>
-          <a id="bluebtn" href="/auth/login" style="text-decoration: none;color: white;text-decoration: none;border: none;padding: 5px 20px;border-radius: 5px;background-color: rgb(33 109 255 / 69%);transition: 0.2s ease-in-out all;"> Login Instead</a>
+        <div class="row justify-content-center">
+          <div class="col-md-6">
+            <div class="card">
+              <header class="card-header">
+                <a href="{{url_for('auth.login')}}" class="float-right btn btn-outline-primary mt-1">Log in</a>
+                <h4 class="card-title mt-2">Sign up</h4>
+              </header>
+              <article class="card-body">
+                <form method="post">
+                  <div class="form-row">
+                    <div class="col form-group">
+                      <label>Name </label>
+                      <input type="text" name="name" class="form-control" placeholder="" required>
+                    </div> <!-- form-group end.// -->
+                  </div> <!-- form-group end.// -->
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                    </div> <!-- form-group end.// -->
+                    <div class="form-group col-md-6">
+      
+                    </div> <!-- form-group end.// -->
+                  </div> <!-- form-row.// -->
+                  <div class="form-group">
+                    <label for="passcode">Create passcode</label>
+                    <input class="form-control" type="number" name="passcode" id="passcode" required><br>
+                    <div class="form-group">
+                    </div> <!-- form-group end.// -->
+                    <div class="form-group">
+                      <button type="submit" value="Register" class="btn btn-primary btn-block"> Register </button>
+                    </div> <!-- form-group// -->
+                    <small class="text-muted">By clicking the 'Register' button, you confirm that you accept our <br> Terms of
+                      use and Privacy Policy.</small>
+                </form>
+              </article> <!-- card-body end .// -->
+              <div class="border-top card-body text-center">Have an account? <a href="/auth/login">Log In</a></div>
+            </div> <!-- card.// -->
         </div>
-     </div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
