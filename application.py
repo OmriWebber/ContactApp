@@ -16,7 +16,7 @@ application = Flask(__name__)
 application.secret_key = 'dev'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-application.config['CDN_DOMAIN'] = 'd2p1oqaafo5r3u.cloudfront.net'
+application.config['CDN_DOMAIN'] = 'd2swf54x8mldch.cloudfront.net'
 application.config['CDN_TIMESTAMP'] = False
 
 # If application detects rds database, use cloud database, if not use localhost
