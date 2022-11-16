@@ -12,7 +12,7 @@ auth = Blueprint('auth', __name__, url_prefix='/auth')
 def register():
     msg = ''
     if request.method == 'POST':
-
+        logout_user()
         name = request.form['name']
         passcode = request.form['passcode']
         
